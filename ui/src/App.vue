@@ -56,7 +56,7 @@ onMounted(() => {
   // Initialize highlight.js theme based on current theme
   const isDark = store.theme === 'dark';
   const hlLight = document.querySelector('link[href*="highlight.js/styles/github.css"]');
-  const hlDark = document.querySelector('link[href*="highlight.js/styles/vs2015.css"]');
+  const hlDark = document.querySelector('link[href*="highlight.js/styles/github-dark.css"]');
 
   if (hlLight && hlDark) {
     if (isDark) {

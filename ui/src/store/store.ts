@@ -18,15 +18,15 @@ export const useStore = defineStore('store', {
     state: (): State => ({
         loggedInUser: null,
         loggedInUserIsAdmin: false,
-        theme: 'light',
+        theme: 'dark',
         cargoSmallLogo: 'img/cargo-logo-small-light.png',
-        kellnrSmallLogo: 'img/kellnr-logo-small-light.png',
+        kellnrSmallLogo: 'img/kellnr-logo-small-dark.png',
         rememberMe: false,
         rememberMeUser: null,
         searchCache: false,
         lightBackgroundImage: 'img/blob-scene-haikei3.svg',
         darkBackgroundImage: 'img/layered-peaks-haikei.svg',
-        currentBackgroundImage: 'img/blob-scene-haikei3.svg', // Default to light
+        currentBackgroundImage: 'img/layered-peaks-haikei.svg', // Default to dark
     }),
     getters: {
         loggedIn: (state) => state.loggedInUser !== null,

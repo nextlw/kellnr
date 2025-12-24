@@ -18,6 +18,7 @@ import '@mdi/font/css/materialdesignicons.css'
 
 // Import both light and dark highlight.js themes
 import 'highlight.js/styles/github.css' // Light theme
+import 'highlight.js/styles/github-dark.css' // Dark theme
 
 const axios = setupCache(Axios);
 const pinia = createPinia()

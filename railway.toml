@@ -1,0 +1,19 @@
+[build]
+# Usa o Dockerfile na raiz
+dockerfilePath = "Dockerfile"
+
+[deploy]
+# Número de réplicas
+numReplicas = 1
+
+# Health check
+healthcheckPath = "/api/v1/health"
+healthcheckTimeout = 30
+
+# Porta que a aplicação escuta
+startCommand = "/app/crates"
+
+# Reinicia em caso de falha
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 3
+
