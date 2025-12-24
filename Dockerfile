@@ -23,7 +23,7 @@ RUN pnpm run build
 # ===========================
 # Stage 2: Build Rust
 # ===========================
-FROM rust:1.87-bookworm AS rust-builder
+FROM rust:1.90-bookworm AS rust-builder
 
 WORKDIR /app
 
