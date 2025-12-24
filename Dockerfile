@@ -72,17 +72,14 @@ COPY config/default.toml /app/config/default.toml
 # Create data directory
 RUN mkdir -p /data
 
-# Set environment variables
+# Default environment variables (can be overridden)
 ENV KELLNR_REGISTRY__DATA_DIR=/data
 ENV KELLNR_LOCAL__IP=0.0.0.0
-ENV KELLNR_LOCAL__PORT=8000
-ENV KELLNR_ORIGIN__PORT=8000
 
 # Health check
-HEALTHCHECK --interval=30s --timeout=3s CMD curl -f http://localhost:8000/api/v1/health || exit 1
+HEALTHCHECK --interval=30s --timeout=10s CMD curl -f http://localhost:${PORT:-8000}/api/v1/health || exit 1
 
 EXPOSE 8000
 
-# Debug: show environment and run
-CMD ["/bin/sh", "-c", "echo 'PWD:' && pwd && echo 'LS /app:' && ls -la /app && echo 'LS /app/config:' && ls -la /app/config && echo 'LS /data:' && ls -la /data && echo 'ENV:' && env | grep -i KELLNR && echo 'Starting app...' && cd /app && ./crates 2>&1"]
+CMD ["/app/crates"]
 
