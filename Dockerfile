@@ -83,5 +83,6 @@ HEALTHCHECK --interval=30s --timeout=3s CMD curl -f http://localhost:8000/api/v1
 
 EXPOSE 8000
 
-CMD ["/app/crates"]
+# Run with error capture
+CMD ["/bin/sh", "-c", "cd /app && ./crates 2>&1"]
 
