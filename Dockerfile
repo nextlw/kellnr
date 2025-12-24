@@ -83,6 +83,6 @@ HEALTHCHECK --interval=30s --timeout=3s CMD curl -f http://localhost:8000/api/v1
 
 EXPOSE 8000
 
-# Run with error capture
-CMD ["/bin/sh", "-c", "cd /app && ./crates 2>&1"]
+# Debug: show environment and run
+CMD ["/bin/sh", "-c", "echo 'PWD:' && pwd && echo 'LS /app:' && ls -la /app && echo 'LS /app/config:' && ls -la /app/config && echo 'LS /data:' && ls -la /data && echo 'ENV:' && env | grep -i KELLNR && echo 'Starting app...' && cd /app && ./crates 2>&1"]
 
