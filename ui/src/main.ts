@@ -20,6 +20,8 @@ import '@mdi/font/css/materialdesignicons.css'
 import 'highlight.js/styles/github.css' // Light theme
 import 'highlight.js/styles/github-dark.css' // Dark theme
 
+// Configure axios to send cookies with requests
+Axios.defaults.withCredentials = true;
 const axios = setupCache(Axios);
 const pinia = createPinia()
 pinia.use(piniaPluginPersistedstate)
