@@ -6,9 +6,9 @@ dockerfilePath = "Dockerfile"
 # Número de réplicas
 numReplicas = 1
 
-# Health check - aumentado para 120s para dar tempo de inicializar
-healthcheckPath = "/api/v1/health"
-healthcheckTimeout = 120
+# Desabilitar healthcheck temporariamente para ver logs de erro
+# healthcheckPath = "/api/v1/health"
+# healthcheckTimeout = 120
 
 # Reinicia em caso de falha
 restartPolicyType = "ON_FAILURE"
