@@ -3,13 +3,12 @@
 ![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/kellnr/kellnr/ci.yaml)
 ![GitHub Sponsors](https://img.shields.io/github/sponsors/secana)
 
-
 # Kellnr - The private crate registry
 
 Kellnr is an open-source [Rust](https://www.rust-lang.org) registry for crates. Think of [crates.io](https://crates.io) but on your own hardware.
 
- > [!NOTE]  
- > Find out more on: [kellnr.io](https://kellnr.io)
+> [!NOTE]
+> Find out more on: [kellnr.io](https://kellnr.io)
 
 ## Quickstart
 
@@ -23,11 +22,78 @@ docker run \
 
 Fore more information about how to configure and run **kellnr**, check out the [documentation](https://kellnr.io/documentation).
 
-You can find the latest binary releases here: [Kellnr Binary Releases](https://github.com/kellnr/kellnr/releases). 
+## Desenvolvimento Local
 
-For the latest Docker images, check here: 
+### Configuração
 
-- [Kellnr Docker Images](https://github.com/kellnr/kellnr/pkgs/container/kellnr) 
+Para desenvolvimento local, crie um arquivo `config/local.toml` que sobrescreve as configurações padrão:
+
+```toml
+[registry]
+# Use um diretório local em vez de /opt/kdata (que requer permissões de root)
+data_dir = "./data"
+
+[setup]
+# Configure as credenciais do admin inicial
+admin_pwd = "admin"
+admin_token = "Zy9HhJ02RJmg0GCrgLfaCVfU6IwDfhXD"
+```
+
+Este arquivo não deve ser commitado no git (já está no `.gitignore`).
+
+### Executando o Servidor
+
+Para executar o servidor principal:
+
+```bash
+cargo run
+```
+
+Ou explicitamente:
+
+```bash
+cargo run --bin crates
+```
+
+O servidor estará disponível em `http://localhost:8000`.
+
+**Nota:** O binário principal se chama `crates` e está configurado como padrão. Outros binários disponíveis incluem `add_user` para criação de usuários.
+
+### Criando Usuários
+
+Existem duas formas de criar usuários:
+
+#### 1. Via Interface Web (Recomendado)
+
+1. Acesse `http://localhost:8000`
+2. Faça login com as credenciais de admin padrão (`admin` / `admin`)
+3. Vá para a página de gerenciamento de usuários
+4. Use o formulário "Add User" para criar novos usuários
+
+#### 2. Via Script Direto no Banco de Dados
+
+Um script utilitário está disponível para adicionar usuários diretamente ao banco de dados:
+
+1. Edite o arquivo `crates/kellnr/src/bin/add_user.rs` com os dados do novo usuário
+2. Execute:
+   ```bash
+   cargo run --bin add_user
+   ```
+
+**Importante:** O servidor precisa ter sido iniciado pelo menos uma vez (com `cargo run --bin crates`) para criar o banco de dados antes de usar o script.
+
+### Primeiro Login
+
+Na primeira inicialização, o sistema cria automaticamente um usuário admin com:
+
+- **Username**: `admin`
+- **Password**: `admin` (ou conforme configurado em `config/local.toml`)
+
+Você pode encontrar the latest binary releases here: [Kellnr Binary Releases](https://github.com/kellnr/kellnr/releases).
+
+For the latest Docker images, check here:
+
+- [Kellnr Docker Images](https://github.com/kellnr/kellnr/pkgs/container/kellnr)
 - [Kellnr Minimal Docker Images](https://github.com/kellnr/kellnr/pkgs/container/kellnr-minimal)
 
 The latest Kubernetes Helm chart can be found here: [Kellnr Helm Chart](https://github.com/kellnr/helm/releases)

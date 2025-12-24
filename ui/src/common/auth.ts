@@ -4,7 +4,7 @@ import axios from "axios"
 
 export async function auth_required(): Promise<boolean> {
   // Check if authentication is required
-  // to view crates. -> "auth_required = true" in Kellnr settings.
+  // to view crates. -> "auth_required = true" in NexCode settings.
   return axios.get(VERSION).then(() => {
     // no auth required
     return false

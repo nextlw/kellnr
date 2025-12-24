@@ -3,20 +3,32 @@
     <!-- App Bar -->
     <v-app-bar color="surface" flat>
       <!-- Mobile menu toggle -->
-      <v-app-bar-nav-icon class="d-md-none" @click="drawer = !drawer"></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon
+        class="d-md-none"
+        @click="drawer = !drawer"
+      ></v-app-bar-nav-icon>
 
       <!-- Logo -->
       <v-app-bar-title class="font-weight-bold text-h5">
         <router-link to="/" class="text-decoration-none">
-          <span class="text-primary">&lt;'kellnr&gt;</span>
+          <span class="text-primary">&lt;'nexcode&gt;</span>
         </router-link>
       </v-app-bar-title>
 
       <!-- Desktop Navigation Links -->
       <div class="d-none d-md-flex ml-4">
-        <v-btn v-for="(item, i) in navItems" :key="i" :to="item.route || undefined" :href="item.href || undefined"
-          :target="item.href ? '_blank' : undefined" :ripple="false" variant="text" class="mx-2"
-          :prepend-icon="item.icon" @click="item.action ? item.action() : null">
+        <v-btn
+          v-for="(item, i) in navItems"
+          :key="i"
+          :to="item.route || undefined"
+          :href="item.href || undefined"
+          :target="item.href ? '_blank' : undefined"
+          :ripple="false"
+          variant="text"
+          class="mx-2"
+          :prepend-icon="item.icon"
+          @click="item.action ? item.action() : null"
+        >
           {{ item.title }}
         </v-btn>
       </div>
@@ -33,19 +45,35 @@
     <!-- Mobile Navigation Drawer -->
     <v-navigation-drawer v-model="drawer" temporary location="left">
       <v-list>
-        <v-list-item v-for="(item, i) in navItems" :key="i" :to="item.route || undefined" :href="item.href || undefined"
-          :target="item.href ? '_blank' : undefined" :prepend-icon="item.icon"
-          @click="item.action ? item.action() : null">
+        <v-list-item
+          v-for="(item, i) in navItems"
+          :key="i"
+          :to="item.route || undefined"
+          :href="item.href || undefined"
+          :target="item.href ? '_blank' : undefined"
+          :prepend-icon="item.icon"
+          @click="item.action ? item.action() : null"
+        >
           <v-list-item-title>{{ item.title }}</v-list-item-title>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
 
     <!-- Snackbar for notifications -->
-    <v-snackbar v-model="showSnackbar" :color="snackbarColor" :timeout="3000" location="bottom">
+    <v-snackbar
+      v-model="showSnackbar"
+      :color="snackbarColor"
+      :timeout="3000"
+      location="bottom"
+    >
       {{ snackbarText }}
       <template v-slot:actions>
-        <v-btn variant="text" icon="mdi-close" @click="showSnackbar = false" size="small"></v-btn>
+        <v-btn
+          variant="text"
+          icon="mdi-close"
+          @click="showSnackbar = false"
+          size="small"
+        ></v-btn>
       </template>
     </v-snackbar>
   </div>
@@ -73,23 +101,23 @@ const navItems = computed(() => [
   {
     title: "Search",
     icon: "mdi-magnify",
-    route: "/crates"
+    route: "/crates",
   },
   {
     title: "Settings",
     icon: "mdi-cog",
-    action: login
+    action: login,
   },
   {
     title: "Doc Queue",
     icon: "mdi-layers",
-    route: "/docqueue"
+    route: "/docqueue",
   },
   {
     title: "Help",
     icon: "mdi-help-circle",
-    href: "https://kellnr.io/documentation"
-  }
+    href: "https://kellnr.io/documentation",
+  },
 ]);
 
 onBeforeMount(() => {

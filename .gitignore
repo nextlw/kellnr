@@ -44,3 +44,4 @@ tests/**/logs/
 tests/**/data/
 tests/**/kdata/
 .certs/
+data/

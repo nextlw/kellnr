@@ -79,7 +79,7 @@ const router = createRouter({
 router.beforeEach(async (to) => {
   const store = useStore();
 
-  // Check if the "auth_required" setting is enabled in Kellnr.
+  // Check if the "auth_required" setting is enabled in NexCode.
   // If it is enabled, the user must be authenticated to view any page, exept the login page.
   // If the user is not authenticated, he will be redirected to the login page.
   if (await auth_required()) {

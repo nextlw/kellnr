@@ -7,7 +7,7 @@
         <v-col cols="auto" class="mr-4 origin-column">
           <v-avatar :color="'primary-lighten-4'" size="52" class="elevation-1 mr-2" :class="{ 'scale-up': isHovered }">
             <v-img v-if="props.isCache" :src="store.cargoSmallLogo" alt="Crates.io logo" />
-            <v-img v-else :src="store.kellnrSmallLogo" alt="Kellnr logo" />
+            <v-img v-else :src="store.kellnrSmallLogo" alt="NexCode logo" />
           </v-avatar>
         </v-col>
 

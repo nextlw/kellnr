@@ -4,6 +4,16 @@ edition.workspace = true
 name = "kellnr"
 version = "0.1.0"
 license-file = "../../LICENSE"
+build = "build.rs"
+default-run = "crates"
+
+[[bin]]
+name = "crates"
+path = "src/main.rs"
+
+[[bin]]
+name = "add_user"
+path = "src/bin/add_user.rs"
 
 [dependencies]
 # Internal dependencies from Kellnr

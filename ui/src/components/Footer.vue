@@ -3,16 +3,29 @@
     <div class="d-flex align-center justify-space-between w-100">
       <!-- Brand and Version - Always Inline -->
       <div class="d-flex align-center">
-        <v-icon icon="mdi-package-variant-closed" color="primary" class="me-1" size="small" />
-        <span class="text-subtitle-2 me-1">kellnr</span>
+        <v-icon
+          icon="mdi-package-variant-closed"
+          color="primary"
+          class="me-1"
+          size="small"
+        />
+        <span class="text-subtitle-2 me-1">nexcode</span>
         <span class="text-caption text-medium-emphasis">v{{ version }}</span>
       </div>
 
       <!-- Links - Always Horizontal -->
       <div>
         <v-btn-group variant="text" density="compact">
-          <v-btn v-for="(link, index) in links" :key="index" :href="link.url" target="_blank" rel="noopener noreferrer"
-            size="x-small" density="comfortable" class="link-btn">
+          <v-btn
+            v-for="(link, index) in links"
+            :key="index"
+            :href="link.url"
+            target="_blank"
+            rel="noopener noreferrer"
+            size="x-small"
+            density="comfortable"
+            class="link-btn"
+          >
             <v-icon :icon="link.icon" size="small" />
             <span class="link-text">{{ link.text }}</span>
           </v-btn>
@@ -39,18 +52,18 @@ const links = [
   {
     text: "kellnr.io",
     icon: "mdi-web",
-    url: "https://kellnr.io/"
+    url: "https://kellnr.io/",
   },
   {
     text: "Docs",
     icon: "mdi-book-open-page-variant",
-    url: "https://kellnr.io/documentation"
+    url: "https://kellnr.io/documentation",
   },
   {
     text: "GitHub",
     icon: "mdi-github",
-    url: "https://github.com/kellnr/kellnr"
-  }
+    url: "https://github.com/nextlw/kellnr",
+  },
 ];
 
 onMounted(() => {

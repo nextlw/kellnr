@@ -15,7 +15,7 @@
             <v-chip size="small" variant="flat" :color="isCratesIoDep(registry) ? 'warning' : 'primary'"
               :prepend-icon="isCratesIoDep(registry) ? 'mdi-package-variant' : 'mdi-package-variant-closed'"
               density="comfortable">
-              {{ isCratesIoDep(registry) ? 'crates.io' : 'kellnr' }}
+              {{ isCratesIoDep(registry) ? 'crates.io' : 'nexcode' }}
             </v-chip>
           </div>
         </v-card-item>

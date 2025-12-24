@@ -24,7 +24,7 @@
           <div class="section-line mr-4"></div>
           <h2 class="text-h5 font-weight-bold mb-0 z-index-1">
             <v-icon icon="mdi-package-variant-closed" color="indigo" class="mr-2"></v-icon>
-            Kellnr Crates
+            NexCode Crates
           </h2>
           <div class="section-line ml-4"></div>
         </div>

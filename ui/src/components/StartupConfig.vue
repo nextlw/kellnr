@@ -5,7 +5,7 @@
     <v-card-text>
       <p class="mb-6">
         Values are set on application startup. See
-        <a href="https://kellnr.io/documentation" class="text-primary">Kellnr Configuration Documentation</a>
+        <a href="https://kellnr.io/documentation" class="text-primary">NexCode Configuration Documentation</a>
         for more information.
       </p>
 
