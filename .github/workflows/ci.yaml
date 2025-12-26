@@ -1,4 +1,4 @@
-name: kellnr-ci
+name: nexcrate-ci
 on:
   push:
     branches:
