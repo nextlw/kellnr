@@ -1,5 +1,6 @@
 <template>
-  <v-card class="statistics-card ma-2" :style="cardStyle" elevation="3" rounded="lg" height="120" :ripple="true">
+  <v-card class="statistics-card ma-2" :style="cardStyle" elevation="3" rounded="lg" height="120" :ripple="true"
+    @click="handleClick" :class="{ 'clickable-card': onClick }">
     <v-card-text class="d-flex flex-column justify-space-between h-100 pa-4" :class="textColorClass">
       <div class="d-flex justify-space-between align-center">
         <span class="text-h3 font-weight-bold">{{ num }}</span>
@@ -26,6 +27,7 @@ const props = defineProps<{
   backgroundColor?: string;
   gradientColor?: string;
   category?: string;
+  onClick?: () => void;
 }>();
 
 // Get current theme
@@ -186,6 +188,13 @@ function darkenColor(color: string): string {
   }
   return color;
 }
+
+// Handle card click
+function handleClick() {
+  if (props.onClick) {
+    props.onClick();
+  }
+}
 </script>
 
 <style scoped>
@@ -198,6 +207,11 @@ function darkenColor(color: string): string {
 .statistics-card:hover {
   transform: translateY(-3px);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1) !important;
+}
+
+.clickable-card {
+  cursor: pointer;
+  user-select: none;
 }
 
 /* Text color for dark theme */

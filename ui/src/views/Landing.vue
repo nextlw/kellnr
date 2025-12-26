@@ -8,9 +8,18 @@
           <v-col cols="12" sm="10" md="8" lg="6" class="mx-auto">
             <!-- Updated search field that works in both light and dark mode -->
             <div class="search-wrapper">
-              <v-text-field v-model="searchText" placeholder="Search for crates" variant="outlined"
-                density="comfortable" prepend-inner-icon="mdi-magnify" hide-details @keyup.enter="searchCrates()"
-                class="search-field" bg-color="surface" rounded="pill"></v-text-field>
+              <v-text-field
+                v-model="searchText"
+                placeholder="Search for crates"
+                variant="outlined"
+                density="comfortable"
+                prepend-inner-icon="mdi-magnify"
+                hide-details
+                @keyup.enter="searchCrates()"
+                class="search-field"
+                bg-color="surface"
+                rounded="pill"
+              ></v-text-field>
             </div>
           </v-col>
         </v-row>
@@ -23,7 +32,11 @@
         <div class="d-flex align-center mb-4">
           <div class="section-line mr-4"></div>
           <h2 class="text-h5 font-weight-bold mb-0 z-index-1">
-            <v-icon icon="mdi-package-variant-closed" color="indigo" class="mr-2"></v-icon>
+            <v-icon
+              icon="mdi-package-variant-closed"
+              color="indigo"
+              class="mr-2"
+            ></v-icon>
             NexCode Crates
           </h2>
           <div class="section-line ml-4"></div>
@@ -34,8 +47,15 @@
     <!-- Loading State -->
     <v-row v-if="!statistics" class="my-8">
       <v-col cols="12" class="text-center">
-        <v-progress-circular indeterminate color="primary" size="60" width="6"></v-progress-circular>
-        <div class="mt-4 text-body-1 z-index-1">Loading registry statistics...</div>
+        <v-progress-circular
+          indeterminate
+          color="primary"
+          size="60"
+          width="6"
+        ></v-progress-circular>
+        <div class="mt-4 text-body-1 z-index-1">
+          Loading registry statistics...
+        </div>
       </v-col>
     </v-row>
 
@@ -44,20 +64,46 @@
       <!-- Primary Stats -->
       <v-row class="justify-center mb-8">
         <v-col cols="12" sm="6" md="4" xl="3">
-          <statistics-card :num="statistics.num_crates" icon="mdi-package-variant-closed" :text="'Total Crates'"
-            category="primary"></statistics-card>
+          <statistics-card
+            :num="statistics.num_crates"
+            icon="mdi-package-variant-closed"
+            :text="'Total Crates'"
+            category="primary"
+            :on-click="() => navigateToCrates()"
+          ></statistics-card>
         </v-col>
         <v-col cols="12" sm="6" md="4" xl="3">
-          <statistics-card :num="statistics.num_crate_versions" icon="mdi-tag-outline" :text="'Total Versions'"
-            category="primary"></statistics-card>
+          <statistics-card
+            :num="statistics.num_crate_versions"
+            icon="mdi-tag-outline"
+            :text="'Total Versions'"
+            category="primary"
+            :on-click="() => navigateToCrates()"
+          ></statistics-card>
         </v-col>
         <v-col cols="12" sm="6" md="4" xl="3">
-          <statistics-card :num="statistics.num_crate_downloads" icon="mdi-cloud-download" :text="'Total Downloads'"
-            category="primary"></statistics-card>
+          <statistics-card
+            :num="statistics.num_crate_downloads"
+            icon="mdi-cloud-download"
+            :text="'Total Downloads'"
+            category="primary"
+            :on-click="() => navigateToCrates()"
+          ></statistics-card>
         </v-col>
-        <v-col v-if="statistics.last_updated_crate" cols="12" sm="6" md="4" xl="3">
-          <statistics-card :num="statistics.last_updated_crate[0]" icon="mdi-calendar-clock"
-            :text="'Updated ' + statistics.last_updated_crate[1]" category="secondary"></statistics-card>
+        <v-col
+          v-if="statistics.last_updated_crate"
+          cols="12"
+          sm="6"
+          md="4"
+          xl="3"
+        >
+          <statistics-card
+            :num="statistics.last_updated_crate[0]"
+            icon="mdi-calendar-clock"
+            :text="'Updated ' + statistics.last_updated_crate[1]"
+            category="secondary"
+            :on-click="() => navigateToCrates()"
+          ></statistics-card>
         </v-col>
       </v-row>
 
@@ -67,24 +113,61 @@
           <div class="d-flex align-center mb-4">
             <div class="section-line mr-4"></div>
             <h2 class="text-h5 font-weight-bold mb-0 z-index-1">
-              <v-icon icon="mdi-star" color="amber-darken-1" class="mr-2"></v-icon>
+              <v-icon
+                icon="mdi-star"
+                color="amber-darken-1"
+                class="mr-2"
+              ></v-icon>
               Top Downloaded Crates
             </h2>
             <div class="section-line ml-4"></div>
           </div>
         </v-col>
 
-        <v-col v-if="statistics.top_crates.first[1] > 0" cols="12" sm="6" md="4">
-          <statistics-card :num="statistics.top_crates.first[1]" icon="mdi-medal" :text="statistics.top_crates.first[0]"
-            category="gold" iconColor="#FFD700"></statistics-card>
+        <v-col
+          v-if="statistics.top_crates.first[1] > 0"
+          cols="12"
+          sm="6"
+          md="4"
+        >
+          <statistics-card
+            :num="statistics.top_crates.first[1]"
+            icon="mdi-medal"
+            :text="statistics.top_crates.first[0]"
+            category="gold"
+            iconColor="#FFD700"
+            :on-click="() => navigateToCrate(statistics.top_crates.first[0])"
+          ></statistics-card>
         </v-col>
-        <v-col v-if="statistics.top_crates.second[1] > 0" cols="12" sm="6" md="4">
-          <statistics-card :num="statistics.top_crates.second[1]" icon="mdi-medal"
-            :text="statistics.top_crates.second[0]" category="silver" iconColor="#C0C0C0"></statistics-card>
+        <v-col
+          v-if="statistics.top_crates.second[1] > 0"
+          cols="12"
+          sm="6"
+          md="4"
+        >
+          <statistics-card
+            :num="statistics.top_crates.second[1]"
+            icon="mdi-medal"
+            :text="statistics.top_crates.second[0]"
+            category="silver"
+            iconColor="#C0C0C0"
+            :on-click="() => navigateToCrate(statistics.top_crates.second[0])"
+          ></statistics-card>
         </v-col>
-        <v-col v-if="statistics.top_crates.third[1] > 0" cols="12" sm="6" md="4">
-          <statistics-card :num="statistics.top_crates.third[1]" icon="mdi-medal" :text="statistics.top_crates.third[0]"
-            category="bronze" iconColor="#CD7F32"></statistics-card>
+        <v-col
+          v-if="statistics.top_crates.third[1] > 0"
+          cols="12"
+          sm="6"
+          md="4"
+        >
+          <statistics-card
+            :num="statistics.top_crates.third[1]"
+            icon="mdi-medal"
+            :text="statistics.top_crates.third[0]"
+            category="bronze"
+            iconColor="#CD7F32"
+            :on-click="() => navigateToCrate(statistics.top_crates.third[0])"
+          ></statistics-card>
         </v-col>
       </v-row>
 
@@ -94,7 +177,11 @@
           <div class="d-flex align-center mb-4">
             <div class="section-line mr-4"></div>
             <h2 class="text-h5 font-weight-bold mb-0 z-index-1">
-              <v-icon icon="mdi-cloud-sync" color="indigo" class="mr-2"></v-icon>
+              <v-icon
+                icon="mdi-cloud-sync"
+                color="indigo"
+                class="mr-2"
+              ></v-icon>
               Cached Crates
             </h2>
             <div class="section-line ml-4"></div>
@@ -102,16 +189,31 @@
         </v-col>
 
         <v-col cols="12" sm="6" md="4">
-          <statistics-card :num="statistics.num_proxy_crates" icon="mdi-package-variant" :text="'Cached Crates'"
-            category="cached"></statistics-card>
+          <statistics-card
+            :num="statistics.num_proxy_crates"
+            icon="mdi-package-variant"
+            :text="'Cached Crates'"
+            category="cached"
+            :on-click="() => navigateToCachedCrates()"
+          ></statistics-card>
         </v-col>
         <v-col cols="12" sm="6" md="4">
-          <statistics-card :num="statistics.num_proxy_crate_versions" icon="mdi-tag-outline" :text="'Cached Versions'"
-            category="cached"></statistics-card>
+          <statistics-card
+            :num="statistics.num_proxy_crate_versions"
+            icon="mdi-tag-outline"
+            :text="'Cached Versions'"
+            category="cached"
+            :on-click="() => navigateToCachedCrates()"
+          ></statistics-card>
         </v-col>
         <v-col cols="12" sm="6" md="4">
-          <statistics-card :num="statistics.num_proxy_crate_downloads" icon="mdi-cloud-download"
-            :text="'Cached Downloads'" category="cached"></statistics-card>
+          <statistics-card
+            :num="statistics.num_proxy_crate_downloads"
+            icon="mdi-cloud-download"
+            :text="'Cached Downloads'"
+            category="cached"
+            :on-click="() => navigateToCachedCrates()"
+          ></statistics-card>
         </v-col>
       </v-row>
     </template>
@@ -119,17 +221,19 @@
 </template>
 
 <script setup lang="ts">
-import axios from 'axios';
+import axios from "axios";
 import { onBeforeMount, ref } from "vue";
-import { STATISTICS } from '../remote-routes';
-import StatisticsCard from '../components/StatisticsCard.vue';
-import type { Statistics } from '../types/statistics';
-import router from '../router';
-import { useTheme } from 'vuetify';
+import { STATISTICS } from "../remote-routes";
+import StatisticsCard from "../components/StatisticsCard.vue";
+import type { Statistics } from "../types/statistics";
+import router from "../router";
+import { useTheme } from "vuetify";
+import { useStore } from "../store/store";
 
 const statistics = ref<Statistics>();
 const searchText = ref("");
 const theme = useTheme();
+const store = useStore();
 
 onBeforeMount(() => {
   axios.get(STATISTICS).then((response) => {
@@ -139,8 +243,26 @@ onBeforeMount(() => {
 
 function searchCrates() {
   if (searchText.value.length > 0) {
-    router.push({ path: '/crates', query: { search: searchText.value } });
+    router.push({ path: "/crates", query: { search: searchText.value } });
   }
+}
+
+function navigateToCrates() {
+  router.push({ path: "/crates" });
+}
+
+function navigateToCachedCrates() {
+  store.searchCache = true;
+  router.push({ path: "/crates" });
+}
+
+function navigateToCrate(crateName: string) {
+  router.push({
+    name: "Crate",
+    query: {
+      name: crateName,
+    },
+  });
 }
 </script>
 
@@ -161,14 +283,17 @@ function searchCrates() {
 
 /* Hero card overlay for light theme */
 .hero-card::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(135deg, var(--v-theme-primary-lighten-5, rgba(240, 240, 255, 0.2)) 0%,
-      var(--v-theme-primary-lighten-4, rgba(225, 235, 255, 0.2)) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--v-theme-primary-lighten-5, rgba(240, 240, 255, 0.2)) 0%,
+    var(--v-theme-primary-lighten-4, rgba(225, 235, 255, 0.2)) 100%
+  );
   opacity: 0.7;
   z-index: 1;
 }
@@ -205,7 +330,12 @@ function searchCrates() {
 
 .section-line {
   height: 1px;
-  background: linear-gradient(90deg, transparent, var(--v-theme-outline-variant), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--v-theme-outline-variant),
+    transparent
+  );
   flex-grow: 1;
 }
 
@@ -215,9 +345,11 @@ function searchCrates() {
 
 /* Dark mode adjustments */
 :deep(.v-theme--dark) .hero-card::before {
-  background: linear-gradient(135deg,
-      rgba(66, 66, 120, 0.3) 0%,
-      rgba(50, 60, 100, 0.3) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(66, 66, 120, 0.3) 0%,
+    rgba(50, 60, 100, 0.3) 100%
+  );
   opacity: 1;
 }
 
@@ -234,6 +366,11 @@ function searchCrates() {
 }
 
 :deep(.v-theme--dark) .section-line {
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
 }
 </style>
