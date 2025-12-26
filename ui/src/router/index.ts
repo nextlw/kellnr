@@ -6,6 +6,10 @@ import PublishDocs from "../views/PublishDocs.vue";
 import Crate from "../views/Crate.vue";
 import DocQueue from "../views/DocQueue.vue";
 import Landing from "../views/Landing.vue";
+import AdminDashboard from "../views/AdminDashboard.vue";
+import AdminClients from "../views/AdminClients.vue";
+import AdminClientForm from "../views/AdminClientForm.vue";
+import AdminLogs from "../views/AdminLogs.vue";
 import { auth_required } from "../common/auth";
 import { useStore } from "../store/store";
 
@@ -65,6 +69,52 @@ const routes = [
     meta: {
       requiresAuth: true,
     }
+  },
+  // Rotas do Admin Panel Suri
+  {
+    path: '/admin',
+    name: 'AdminDashboard',
+    component: AdminDashboard,
+    meta: {
+      requiresAuth: true,
+      requiresSuriAuth: true,
+    }
+  },
+  {
+    path: '/admin/clients',
+    name: 'AdminClients',
+    component: AdminClients,
+    meta: {
+      requiresAuth: true,
+      requiresSuriAuth: true,
+    }
+  },
+  {
+    path: '/admin/clients/new',
+    name: 'AdminClientNew',
+    component: AdminClientForm,
+    meta: {
+      requiresAuth: true,
+      requiresSuriAuth: true,
+    }
+  },
+  {
+    path: '/admin/clients/:id',
+    name: 'AdminClientEdit',
+    component: AdminClientForm,
+    meta: {
+      requiresAuth: true,
+      requiresSuriAuth: true,
+    }
+  },
+  {
+    path: '/admin/logs',
+    name: 'AdminLogs',
+    component: AdminLogs,
+    meta: {
+      requiresAuth: true,
+      requiresSuriAuth: true,
+    }
   }
 ]
 
@@ -95,6 +145,16 @@ router.beforeEach(async (to) => {
   }
   else {
     console.debug("Auth not required.");
+  }
+
+  // Verificar autenticacao Suri para rotas admin
+  if (to.matched.some(record => record.meta.requiresSuriAuth)) {
+    const isAuth = await store.checkSuriAuth();
+    if (!isAuth) {
+      console.debug("Suri auth required. Redirecting to login page.");
+      return { name: 'Login', query: { redirect: to.fullPath } };
+    }
+    console.debug("Suri auth verified. User is authenticated.");
   }
 });
 
