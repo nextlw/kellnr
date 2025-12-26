@@ -96,42 +96,34 @@ const showSnackbar = ref(false);
 const snackbarText = ref("");
 const snackbarColor = ref("success");
 
-// Navigation items
-const navItems = computed(() => {
-  const items = [
-    {
-      title: "Search",
-      icon: "mdi-magnify",
-      route: "/crates",
-    },
-    {
-      title: "Settings",
-      icon: "mdi-cog",
-      action: login,
-    },
-    {
-      title: "Doc Queue",
-      icon: "mdi-layers",
-      route: "/docqueue",
-    },
-    {
-      title: "Help",
-      icon: "mdi-help-circle",
-      href: "https://kellnr.io/documentation",
-    },
-  ];
-
-  // Adicionar menu Admin Panel se o usuario tiver acesso
-  if (store.loggedInUserIsAdmin || store.isSuriLoggedIn) {
-    items.push({
-      title: "Admin Panel",
-      icon: "mdi-shield-account",
-      route: "/admin",
-    });
-  }
-
-  return items;
-});
+// Navigation items - Admin Panel sempre visivel (login separado)
+const navItems = computed(() => [
+  {
+    title: "Search",
+    icon: "mdi-magnify",
+    route: "/crates",
+  },
+  {
+    title: "Settings",
+    icon: "mdi-cog",
+    action: login,
+  },
+  {
+    title: "Doc Queue",
+    icon: "mdi-layers",
+    route: "/docqueue",
+  },
+  {
+    title: "Help",
+    icon: "mdi-help-circle",
+    href: "https://kellnr.io/documentation",
+  },
+  {
+    title: "Admin Panel",
+    icon: "mdi-shield-account",
+    route: "/admin",
+  },
+]);
 
 onBeforeMount(() => {
   // Apply the current theme

@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from "vue-router";
 import Crates from "../views/Crates.vue";
 import Login from "../views/Login.vue";
 import Settings from "../views/Settings.vue";
@@ -10,113 +10,123 @@ import AdminDashboard from "../views/AdminDashboard.vue";
 import AdminClients from "../views/AdminClients.vue";
 import AdminClientForm from "../views/AdminClientForm.vue";
 import AdminLogs from "../views/AdminLogs.vue";
+import AdminLogin from "../views/AdminLogin.vue";
 import { auth_required } from "../common/auth";
 import { useStore } from "../store/store";
 
 const routes = [
   {
-    path: '/',
-    name: 'Landing',
+    path: "/",
+    name: "Landing",
     component: Landing,
     meta: {
       requiresAuth: true,
-    }
+    },
   },
   {
-    path: '/crates',
-    name: 'Crates',
+    path: "/crates",
+    name: "Crates",
     component: Crates,
     meta: {
       requiresAuth: true,
-    }
+    },
   },
   {
-    path: '/login',
-    name: 'Login',
+    path: "/login",
+    name: "Login",
     component: Login,
     meta: {
       requiresAuth: false,
-    }
+    },
   },
   {
-    path: '/settings',
-    name: 'Settings',
+    path: "/settings",
+    name: "Settings",
     component: Settings,
     meta: {
       requiresAuth: true,
-    }
+    },
   },
   {
-    path: '/publishdocs',
-    name: 'PublishDocs',
+    path: "/publishdocs",
+    name: "PublishDocs",
     component: PublishDocs,
     meta: {
       requiresAuth: true,
-    }
+    },
   },
   {
-    path: '/crate',
-    name: 'Crate',
+    path: "/crate",
+    name: "Crate",
     component: Crate,
     meta: {
       requiresAuth: true,
-    }
+    },
   },
   {
-    path: '/docqueue',
-    name: 'DocQueue',
+    path: "/docqueue",
+    name: "DocQueue",
     component: DocQueue,
     meta: {
       requiresAuth: true,
-    }
+    },
   },
   // Rotas do Admin Panel Suri
   {
-    path: '/admin',
-    name: 'AdminDashboard',
+    path: "/admin/login",
+    name: "AdminLogin",
+    component: AdminLogin,
+    meta: {
+      requiresAuth: false,
+      requiresSuriAuth: false,
+    },
+  },
+  {
+    path: "/admin",
+    name: "AdminDashboard",
     component: AdminDashboard,
     meta: {
-      requiresAuth: true,
+      requiresAuth: false,
       requiresSuriAuth: true,
-    }
+    },
   },
   {
-    path: '/admin/clients',
-    name: 'AdminClients',
+    path: "/admin/clients",
+    name: "AdminClients",
     component: AdminClients,
     meta: {
-      requiresAuth: true,
+      requiresAuth: false,
       requiresSuriAuth: true,
-    }
+    },
   },
   {
-    path: '/admin/clients/new',
-    name: 'AdminClientNew',
+    path: "/admin/clients/new",
+    name: "AdminClientNew",
     component: AdminClientForm,
     meta: {
-      requiresAuth: true,
+      requiresAuth: false,
       requiresSuriAuth: true,
-    }
+    },
   },
   {
-    path: '/admin/clients/:id',
-    name: 'AdminClientEdit',
+    path: "/admin/clients/:id",
+    name: "AdminClientEdit",
     component: AdminClientForm,
     meta: {
-      requiresAuth: true,
+      requiresAuth: false,
       requiresSuriAuth: true,
-    }
+    },
   },
   {
-    path: '/admin/logs',
-    name: 'AdminLogs',
+    path: "/admin/logs",
+    name: "AdminLogs",
     component: AdminLogs,
     meta: {
-      requiresAuth: true,
+      requiresAuth: false,
       requiresSuriAuth: true,
-    }
-  }
-]
+    },
+  },
+];
 
 const currentPath = window.location.pathname;
 const base = currentPath.substring(0, currentPath.lastIndexOf("/") + 1);
@@ -133,29 +143,29 @@ router.beforeEach(async (to) => {
   // If it is enabled, the user must be authenticated to view any page, exept the login page.
   // If the user is not authenticated, he will be redirected to the login page.
   if (await auth_required()) {
-    if (to.matched.some(record => record.meta.requiresAuth)) {
-      if (!store.loggedIn) {
+    if (to.matched.some((record) => record.meta.requiresAuth)) {
+      // Usar propriedade do state diretamente
+      if (store.loggedInUser === null) {
         console.debug("Auth required. Redirecting to login page.");
-        return { name: 'Login' }
-      }
-      else {
+        return { name: "Login" };
+      } else {
         console.debug("Auth required. User is authenticated.");
       }
     }
-  }
-  else {
+  } else {
     console.debug("Auth not required.");
   }
 
   // Verificar autenticacao Suri para rotas admin
-  if (to.matched.some(record => record.meta.requiresSuriAuth)) {
-    const isAuth = await store.checkSuriAuth();
+  if (to.matched.some((record) => record.meta.requiresSuriAuth)) {
+    // Chamar action diretamente (Pinia suporta isso)
+    const isAuth = await (store as any).checkSuriAuth();
     if (!isAuth) {
-      console.debug("Suri auth required. Redirecting to login page.");
-      return { name: 'Login', query: { redirect: to.fullPath } };
+      console.debug("Suri auth required. Redirecting to admin login page.");
+      return { name: "AdminLogin", query: { redirect: to.fullPath } };
     }
     console.debug("Suri auth verified. User is authenticated.");
   }
 });
 
-export default router
+export default router;
