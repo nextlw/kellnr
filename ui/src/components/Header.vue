@@ -96,34 +96,42 @@ const showSnackbar = ref(false);
 const snackbarText = ref("");
 const snackbarColor = ref("success");
 
-// Navigation items - Admin Panel sempre visivel (login separado)
-const navItems = computed(() => [
-  {
-    title: "Search",
-    icon: "mdi-magnify",
-    route: "/crates",
-  },
-  {
-    title: "Settings",
-    icon: "mdi-cog",
-    action: login,
-  },
-  {
-    title: "Doc Queue",
-    icon: "mdi-layers",
-    route: "/docqueue",
-  },
-  {
-    title: "Help",
-    icon: "mdi-help-circle",
-    href: "https://kellnr.io/documentation",
-  },
-  {
-    title: "Admin Panel",
-    icon: "mdi-shield-account",
-    route: "/admin",
-  },
-]);
+// Navigation items - Admin Panel visivel apenas para admins
+const navItems = computed(() => {
+  const items = [
+    {
+      title: "Search",
+      icon: "mdi-magnify",
+      route: "/crates",
+    },
+    {
+      title: "Settings",
+      icon: "mdi-cog",
+      action: login,
+    },
+    {
+      title: "Doc Queue",
+      icon: "mdi-layers",
+      route: "/docqueue",
+    },
+    {
+      title: "Help",
+      icon: "mdi-help-circle",
+      href: "https://kellnr.io/documentation",
+    },
+  ];
+
+  // Adicionar Admin Panel apenas se usuario for admin
+  if (store.loggedInUserIsAdmin) {
+    items.push({
+      title: "Admin Panel",
+      icon: "mdi-shield-account",
+      route: "/admin",
+    });
+  }
+
+  return items;
+});
 
 onBeforeMount(() => {
   // Apply the current theme

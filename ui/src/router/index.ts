@@ -10,7 +10,6 @@ import AdminDashboard from "../views/AdminDashboard.vue";
 import AdminClients from "../views/AdminClients.vue";
 import AdminClientForm from "../views/AdminClientForm.vue";
 import AdminLogs from "../views/AdminLogs.vue";
-import AdminLogin from "../views/AdminLogin.vue";
 import { auth_required } from "../common/auth";
 import { useStore } from "../store/store";
 
@@ -71,23 +70,14 @@ const routes = [
       requiresAuth: true,
     },
   },
-  // Rotas do Admin Panel Suri
-  {
-    path: "/admin/login",
-    name: "AdminLogin",
-    component: AdminLogin,
-    meta: {
-      requiresAuth: false,
-      requiresSuriAuth: false,
-    },
-  },
+  // Rotas do Admin Panel - requer login do Nexcrate como admin
   {
     path: "/admin",
     name: "AdminDashboard",
     component: AdminDashboard,
     meta: {
-      requiresAuth: false,
-      requiresSuriAuth: true,
+      requiresAuth: true,
+      requiresAdmin: true,
     },
   },
   {
@@ -95,8 +85,8 @@ const routes = [
     name: "AdminClients",
     component: AdminClients,
     meta: {
-      requiresAuth: false,
-      requiresSuriAuth: true,
+      requiresAuth: true,
+      requiresAdmin: true,
     },
   },
   {
@@ -104,8 +94,8 @@ const routes = [
     name: "AdminClientNew",
     component: AdminClientForm,
     meta: {
-      requiresAuth: false,
-      requiresSuriAuth: true,
+      requiresAuth: true,
+      requiresAdmin: true,
     },
   },
   {
@@ -113,8 +103,8 @@ const routes = [
     name: "AdminClientEdit",
     component: AdminClientForm,
     meta: {
-      requiresAuth: false,
-      requiresSuriAuth: true,
+      requiresAuth: true,
+      requiresAdmin: true,
     },
   },
   {
@@ -122,8 +112,8 @@ const routes = [
     name: "AdminLogs",
     component: AdminLogs,
     meta: {
-      requiresAuth: false,
-      requiresSuriAuth: true,
+      requiresAuth: true,
+      requiresAdmin: true,
     },
   },
 ];
@@ -156,15 +146,16 @@ router.beforeEach(async (to) => {
     console.debug("Auth not required.");
   }
 
-  // Verificar autenticacao Suri para rotas admin
-  if (to.matched.some((record) => record.meta.requiresSuriAuth)) {
-    // Chamar action diretamente (Pinia suporta isso)
-    const isAuth = await (store as any).checkSuriAuth();
-    if (!isAuth) {
-      console.debug("Suri auth required. Redirecting to admin login page.");
-      return { name: "AdminLogin", query: { redirect: to.fullPath } };
+  // Verificar autenticacao para rotas admin
+  // Usa o mesmo login do Nexcrate - apenas admins podem acessar
+  if (to.matched.some((record) => record.meta.requiresAdmin)) {
+    if (!store.loggedInUserIsAdmin) {
+      console.debug(
+        "Admin auth required. User is not admin. Redirecting to home."
+      );
+      return { name: "Landing" };
     }
-    console.debug("Suri auth verified. User is authenticated.");
+    console.debug("Admin auth verified. User is admin.");
   }
 });
 
